@@ -55,6 +55,7 @@ public class Artista extends Usuario{
     }
 
     public List getAlbumes() {
+<<<<<<< HEAD
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
         EntityManager em = emf.createEntityManager();
         Query q = em.createNativeQuery("SELECT * FROM ALBUM WHERE NICK_ARTISTA = '"+ this.getNick() +"'", Album.class);
@@ -62,6 +63,9 @@ public class Artista extends Usuario{
         em.close();
         emf.close();
         return ret;
+=======
+        return albumes;
+>>>>>>> master
     }
 
     public void setAlbumes(ArrayList<Album> albumes) {
@@ -72,9 +76,15 @@ public class Artista extends Usuario{
         this.albumes.add(nuevo);
     }
     
+<<<<<<< HEAD
     public ArrayList<String> listarAlbumesArtista() {
         ArrayList<String> ret = new ArrayList();
         Iterator<Album> it = this.getAlbumes().iterator();
+=======
+    ArrayList<String> listarAlbumesArtista() {
+        ArrayList<String> ret = new ArrayList();
+        Iterator<Album> it = albumes.iterator();
+>>>>>>> master
         Album a;
         while(it.hasNext()){
             a = (Album) it.next();
@@ -84,8 +94,20 @@ public class Artista extends Usuario{
     }
 
     DtAlbum darAlbum(String nombreAlbum) {
+<<<<<<< HEAD
         Album a = buscarAlbum(nombreAlbum);
         if(a != null )
+=======
+        Iterator<Album> it = albumes.iterator();
+        boolean parar = false;
+        Album a = null;
+        while(it.hasNext() && !parar){
+            a = it.next();
+            if(a!=null && a.getNombre().equals(nombreAlbum))
+                parar = true;
+        }
+        if(a != null && parar)
+>>>>>>> master
             return a.darInfoAlbum();
         else
             throw new UnsupportedOperationException("No existe el album perteneciente a ese artista"); 
@@ -105,8 +127,13 @@ public class Artista extends Usuario{
             
     }
 
+<<<<<<< HEAD
     public ArrayList<String> darAlbumesPublicados() {
         Iterator<Album> it = this.getAlbumes().iterator();
+=======
+    ArrayList<String> darAlbumesPublicados() {
+        Iterator<Album> it = albumes.iterator();
+>>>>>>> master
         ArrayList<String> ret = new ArrayList();
         while(it.hasNext())
             ret.add(it.next().getNombre());

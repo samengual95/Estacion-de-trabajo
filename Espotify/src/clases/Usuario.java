@@ -142,6 +142,10 @@ public class Usuario implements Serializable{
     }
 
     public void setSeguidor(Cliente c) {
+<<<<<<< HEAD
+=======
+        Iterator<Cliente> it = seguidores.iterator();
+>>>>>>> master
         Boolean yaExiste = false;
         Cliente cl=null;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
