@@ -95,14 +95,16 @@ public class Artista extends Usuario{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
             EntityManager em = emf.createEntityManager();
             Query q = em.createNativeQuery("SELECT * FROM ALBUM WHERE NOMBRE = '"+nombreAl+"'", Album.class);
-            List a = q.getResultList();
+            List<Album> a = q.getResultList();
             em.close();
             emf.close();
-            Iterator it = a.iterator();
-            if(it.hasNext())
-                return (Album) it.next();
+            if(!a.isEmpty()){
+                Iterator<Album> it = a.iterator();
+                Album al = (Album) it.next();
+                return al;
+            }
             else
-                throw new UnsupportedOperationException("Album no encontrado."); 
+                throw new UnsupportedOperationException("Album no encontrado : "+nombreAl ); 
             
     }
 
@@ -113,6 +115,27 @@ public class Artista extends Usuario{
             ret.add(it.next().getNombre());
         return ret;
     }
+    
+    public ArrayList<String> darNombreAlbumes(){
+        ArrayList<String> ret = new ArrayList<>();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createNativeQuery("SELECT * FROM ALBUM WHERE NICK_ARTISTA = '" + this.getNick() + "'",Album.class);
+            List<Album> lista = query.getResultList();
+            em.close();
+            emf.close();
+            Album g = null;
+            if(!lista.isEmpty()){
+                Iterator<Album> it2 = lista.iterator();
+                while(it2.hasNext()){
+                   g = (Album) it2.next();
+                   ret.add(g.getNombre());
+                }
+            }else
+                return null;
+        return ret;
+    }
+    
 }
 
 
