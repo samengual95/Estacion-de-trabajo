@@ -1181,7 +1181,7 @@ public class Sistema implements Interfaz{
                 }
                 return ret;
             }else
-                return null;
+                return ret;
         }else
             throw new UnsupportedOperationException("El nick de usuario no pertenece a un cliente");
     }
