@@ -364,20 +364,11 @@ public class Sistema implements Interfaz{
     
     @Override
     public void hacerPublica(String nick, String nombreLista) {
-        Iterator<Usuario> it = usuarios.iterator();
-        Boolean encontrado = false;
-        Usuario u;
-        Cliente c = null;
-        while(it.hasNext() && !encontrado){
-            u =  it.next();
-            if(u instanceof Cliente){
-                c = (Cliente) u;
-                if(c.getNick().equals(nick))
-                    encontrado=true;
-            }
-        }
-        if(encontrado && c != null)
+        Usuario u = buscarUsuario(nick);
+        if (u instanceof Cliente){
+            Cliente c = (Cliente) u;
             c.publicarLista(nombreLista);
+        }
         else
             throw new UnsupportedOperationException("Cliente no encontrado!"); 
     }
@@ -584,19 +575,12 @@ public class Sistema implements Interfaz{
     }
 
     @Override
-    public DtListaReproduccionDefecto seleccionarListaReproduccion(String nombreGenero,String nombreLista) {
-        Iterator<Genero> it = generos.iterator();
-        boolean encontrado = false;
-        Genero g = null;
-        while(it.hasNext() && !encontrado){
-            g = it.next();
-            if(g!=null && g.getNombre().equals(nombreGenero))
-                encontrado=true;
-        }
-        if(g == null || !encontrado)
+    public PorDefecto seleccionarListaReproduccion(String nombreGenero,String nombreLista) {
+        Genero g = buscarGenero(nombreGenero);
+        if(g == null)
             throw new UnsupportedOperationException("No existe genero registrado con ese nombre.");
         else
-            return g.darLista(nombreLista);
+            return g.buscarLista(nombreLista);
     }
 
     @Override
@@ -701,7 +685,7 @@ public class Sistema implements Interfaz{
     }
     
     private Genero buscarGenero(String nombre){
-                   // Sino se encontro se buscara en la base de datos
+            // Sino se encontro se buscara en la base de datos
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
             EntityManager em = emf.createEntityManager();
             Query query = em.createNativeQuery("SELECT * FROM GENERO WHERE NOMBRE = '" + nombre + "'" ,Genero.class);
@@ -715,8 +699,8 @@ public class Sistema implements Interfaz{
                    g = (Genero) it2.next();
                 return g;
             }else
-                return null;
-        
+                throw new UnsupportedOperationException("Genero no encontrado:" + nombre);
+                //return g;
     }
     
     @Override
@@ -1200,6 +1184,50 @@ public class Sistema implements Interfaz{
         }else
             throw new UnsupportedOperationException("El nick de usuario no pertenece a un cliente");
     }
+
+    @Override
+    public List<PorDefecto> listarListasGenero(String genero) {
+        Genero g = buscarGenero(genero);
+        return g.getListaPorDefecto();
+    }
+
+    @Override
+    public List<String> listarClientes() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM USUARIO WHERE TIPO = 'Cliente' ", Usuario.class);
+        List<Cliente> lista = query.getResultList();
+        List<String> ret = new ArrayList<String>();
+        em.close();
+        emf.close(); 
+        if (!lista.isEmpty()){
+            Iterator<Cliente> it = lista.iterator();
+            while(it.hasNext())
+                ret.add(it.next().getNick());
+            return ret;
+        }else
+            return ret;
+    }
+
+    @Override
+    public Cliente buscarCliente(String nick) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createNativeQuery("SELECT * FROM USUARIO WHERE NICKNAME = '" + nick + "'" + " OR EMAIL = '" + nick + "' AND TIPO = 'Cliente'", Usuario.class);
+        List u = q.getResultList();
+        em.close();
+        emf.close();
+        Iterator a = u.iterator();
+        if (a.hasNext()) {
+            Cliente ret = (Cliente) a.next();
+            return ret;
+        } else {
+            return null;
+        }
+    }
+
+   
+    
     
 }
 

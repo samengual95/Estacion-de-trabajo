@@ -1,6 +1,8 @@
 package interfaz;
 
 import clases.Artista;
+import clases.Cliente;
+import clases.PorDefecto;
 import clases.Suscripciones;
 import clases.Usuario;
 import dataType.DtAlbum;
@@ -99,7 +101,7 @@ public interface Interfaz {
     
               /* Por Genero */
     public ArrayList<String> seleccionarGeneroLR(String nombre);
-    public DtListaReproduccionDefecto seleccionarListaReproduccion(String nombreGenero,String nombreLista);     // Las listas por defecto no pueden tener el mismo nombre
+    public PorDefecto seleccionarListaReproduccion(String nombreGenero,String nombreLista);     // Las listas por defecto no pueden tener el mismo nombre
               /* Por Cliente */
     public ArrayList<String> consultaListaReproduccionCliente();
     public ArrayList<String> seleccionarCliente(String nick);
@@ -138,11 +140,17 @@ public interface Interfaz {
 
 */
     public Artista buscarArtista(String nick);
+    
+    public Cliente buscarCliente(String nick);
 
     public ArrayList<Usuario> getUsuarios();
     
     public void altaSuscripcion(String nick, float monto, String tipo);
     
     public ArrayList<Suscripciones> listarSuscripciones(String nick);
+
+    public List<PorDefecto> listarListasGenero(String genero);
+    
+    public List<String> listarClientes();
 }
 
