@@ -41,6 +41,7 @@ public interface Interfaz {
     // Agregar tema a lista
 
         /*Lista Personalizada*/
+    public ArrayList<String> listarArtistas();
     
     public void agregarTemaListaPersonalizada(DtPertenece listaPropietario,DtPertenece ruta, int numeroCancion);
     public void agregarTemaListaDefecto(DtPertenece listaPropietario,DtPertenece ruta, int numeroCancion);

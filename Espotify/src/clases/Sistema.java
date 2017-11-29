@@ -755,11 +755,12 @@ public class Sistema implements Interfaz{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
             EntityManager em = emf.createEntityManager();
             Query q = em.createNativeQuery("SELECT * FROM ALBUM WHERE NOMBRE = '" + nombreAlbum +"' AND NICK_ARTISTA = '"  + a.getNick() +"'", Album.class);
-            boolean esta = q.getResultList()!= null;
+            List l;
+            l = q.getResultList();
             em.close();
             emf.close();
-            if(esta)
-                throw new UnsupportedOperationException("Ya existe un album con ese nombre en el artista.");
+            if(!l.isEmpty())
+                return false;
             else
                 return true;
         
@@ -1227,6 +1228,27 @@ public class Sistema implements Interfaz{
     }
 
    
+
+    @Override
+    public ArrayList<String> listarArtistas() {
+            ArrayList<String> ret = new ArrayList<>();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+            EntityManager em = emf.createEntityManager();
+            Query query = em.createNativeQuery("SELECT * FROM USUARIO WHERE TIPO = 'Artista'",Usuario.class);
+            List<Usuario> lista = query.getResultList();
+            em.close();
+            emf.close();
+            Usuario g = null;
+            if(!lista.isEmpty()){
+                Iterator<Usuario> it2 = lista.iterator();
+                while(it2.hasNext()){
+                   g = (Usuario) it2.next();
+                   ret.add(g.getNick());
+                }
+            }else
+                return null;
+        return ret;
+    }
     
     
 }

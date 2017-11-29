@@ -381,8 +381,13 @@ public class Cliente extends Usuario{
         }
         if(!encontrado)
             throw new UnsupportedOperationException("El usuario no era seguido por ese cliente!");
-        else
-            seguidos.remove(s);                                                 // Tal vez solo podria ir esta linea de codigo en esta funcion
+        else{
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+            EntityManager em = emf.createEntityManager();
+            Query q = em.createNativeQuery("DELETE FROM CLIENTE_SEGUIDOR WHERE NICK_CLIENTE = '" + this.getNick()+ "' AND NICK_SEGUIDO = '" + s.getNick() + "'");
+            seguidos.remove(s);                                                // Tal vez solo podria ir esta linea de codigo en esta funcion
+            
+        }
     }
 
     void quitarTemaLista(String nombreLista, DtTema temaQuitar) {
