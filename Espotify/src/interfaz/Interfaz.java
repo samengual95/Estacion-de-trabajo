@@ -13,6 +13,7 @@ import dataType.DtPertenece;
 import dataType.DtTema;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.*;
 
 /*
  * @author Leandro
@@ -144,5 +145,9 @@ public interface Interfaz {
     public void altaSuscripcion(String nick, float monto, String tipo);
     
     public ArrayList<Suscripciones> listarSuscripciones(String nick);
+    public List<Suscripciones> listarSuscripcionesPendientes();
+    public void actualizarSuscripcion(int id, String estado);
+    public void copiarArchivo (String destino, String origen);
+    public String getDestinoFoto();
 }
 

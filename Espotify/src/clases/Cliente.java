@@ -69,7 +69,7 @@ public class Cliente extends Usuario{
         this.suscripciones.add(s);
     }
     
-    public Cliente(String nick, String nombre, String apellido, String email, String fechaNacimiento, Icon foto, String pass) {
+    public Cliente(String nick, String nombre, String apellido, String email, String fechaNacimiento, String foto, String pass) {
         super(nick, nombre, apellido, email, fechaNacimiento, foto, pass);
         this.seguidos = new ArrayList<Usuario>();
         this.listasFavoritas = new ArrayList<ListaReproduccion>();
@@ -88,7 +88,13 @@ public class Cliente extends Usuario{
     }
 
     public List<Usuario> getSeguidos() {
-        return seguidos;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createNativeQuery("SELECT U FROM USUARIO U, CLIENTE_SEGUIDOR S WHERE U.NICKNAME= '"+ this.getNick() +"' AND U.NICKNAME = S.NICK_SEFGUIDO", Usuario.class);
+        List<Usuario> ret = q.getResultList();
+        em.close();
+        emf.close();
+        return ret;
     }
 
     public List<Personalizada> getListas() {
@@ -96,7 +102,13 @@ public class Cliente extends Usuario{
     }
 
     public List<Tema> getTemasFavoritos() {
-        return temasFavoritos;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createNativeQuery("SELECT T.* FROM  TEMA T, TEMAS_FAVORITOS F WHERE F.NICK_CLIENTE = '"+ this.getNick() +"' AND T.IDTEMA = F.ID_TEMA", Tema.class);
+        List<Tema> ret = q.getResultList();
+        em.close();
+        emf.close();
+        return ret;
     }
     
     public void setTemasFavoritos(Tema t){
@@ -122,7 +134,13 @@ public class Cliente extends Usuario{
     }
 
     public List<Album> getAlbumesFavoritos() {
-        return albumesFavoritos;
+       EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createNativeQuery("SELECT A.* FROM  ALBUM A, ALBUMES_FAVORITOS F WHERE F.NICK_CLIENTE = '"+ this.getNick() +"'  AND A.ID = F.ID_ALBUM", Album.class);
+        List<Album> ret = q.getResultList();
+        em.close();
+        emf.close();
+        return ret;
     }
     
     public void setAlbumesFavoritos(Album al){
@@ -163,7 +181,13 @@ public class Cliente extends Usuario{
     }
 
     public List<ListaReproduccion> getListasFavoritas() {
-        return listasFavoritas;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createNativeQuery("SELECT L.* FROM LISTAREPRODUCCION L, LISTAS_FAVORITAS F WHERE F.NICK_CLIENTE = '"+ this.getNick() +"'  AND L.NOMBRE = F.NOMBRE_LISTA", ListaReproduccion.class);
+        List<ListaReproduccion> ret = q.getResultList();
+        em.close();
+        emf.close();
+        return ret;
     }
     
     public void setListaReproduccionFavorita(ListaReproduccion lis){
@@ -225,7 +249,11 @@ public class Cliente extends Usuario{
     public ArrayList<String> darSeguidos() {
         ArrayList<String> ret = new ArrayList<String>();
         try {
-            Iterator<Usuario> it = seguidos.iterator();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+            EntityManager em = emf.createEntityManager();
+            Query q = em.createNativeQuery("SELECT U.* FROM USUARIO U, CLIENTE_SEGUIDOR S WHERE S.NICK_CLIENTE= '"+ this.getNick() +"' AND U.NICKNAME = S.NICK_SEGUIDO", Usuario.class);
+            List<Usuario> s = q.getResultList();
+            Iterator<Usuario> it = s.iterator();
             String tipo;
             while (it.hasNext()) {
                 Usuario u = it.next();
@@ -246,7 +274,7 @@ public class Cliente extends Usuario{
     public ArrayList<String> darListas() {
         ArrayList<String> ret = new ArrayList<String> ();
         try{
-            Iterator<Personalizada> it = listas.iterator();
+            Iterator<Personalizada> it = this.getListas().iterator();
             while (it.hasNext()) {
                 ret.add(it.next().getNombre());
             }
@@ -261,7 +289,7 @@ public class Cliente extends Usuario{
     public ArrayList<String> darTemasFavoritos() {
         ArrayList<String> ret = new ArrayList<String> ();
         try{
-            Iterator<Tema> it = temasFavoritos.iterator();
+            Iterator<Tema> it = this.getTemasFavoritos().iterator();
             while (it.hasNext()) {
                 ret.add(it.next().getNombre());
             }
@@ -275,7 +303,7 @@ public class Cliente extends Usuario{
     public ArrayList<String> darAlbumesFavoritos() {
         ArrayList<String> ret = new ArrayList<String> ();
         try{
-            Iterator<Album> it = albumesFavoritos.iterator();
+            Iterator<Album> it = this.getAlbumesFavoritos().iterator();
             while (it.hasNext()) {
                 ret.add(it.next().getNombre());
             }
@@ -289,7 +317,7 @@ public class Cliente extends Usuario{
     public ArrayList<String> darListasFavoritas() {
         ArrayList<String> ret = new ArrayList<String> ();
         try{
-            Iterator<ListaReproduccion> it = listasFavoritas.iterator();
+            Iterator<ListaReproduccion> it = this.getListasFavoritas().iterator();
             while (it.hasNext()) {
                 ret.add(it.next().getNombre());
             }

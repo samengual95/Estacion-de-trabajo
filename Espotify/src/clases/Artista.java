@@ -1,6 +1,7 @@
 package clases;
 
 import dataType.DtAlbum;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Artista extends Usuario{
     public Artista(){
     }
     
-    public Artista(String nick, String nombre, String apellido, String email, String fechaNacimiento, String biografia, String sitioWeb, Icon foto, String pass) {
+    public Artista(String nick, String nombre, String apellido, String email, String fechaNacimiento, String biografia, String sitioWeb, String foto, String pass) {
         super(nick, nombre, apellido, email, fechaNacimiento, foto, pass);
         this.biografia=biografia;
         this.dirWeb=sitioWeb;
@@ -55,17 +56,13 @@ public class Artista extends Usuario{
     }
 
     public List getAlbumes() {
-<<<<<<< HEAD
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
         EntityManager em = emf.createEntityManager();
         Query q = em.createNativeQuery("SELECT * FROM ALBUM WHERE NICK_ARTISTA = '"+ this.getNick() +"'", Album.class);
-        ArrayList<Album> ret = (ArrayList<Album>) q.getResultList();
+        List<Album> ret = (List<Album>) q.getResultList();
         em.close();
         emf.close();
         return ret;
-=======
-        return albumes;
->>>>>>> master
     }
 
     public void setAlbumes(ArrayList<Album> albumes) {
@@ -75,16 +72,9 @@ public class Artista extends Usuario{
     void agregarAlbum(Album nuevo) {
         this.albumes.add(nuevo);
     }
-    
-<<<<<<< HEAD
     public ArrayList<String> listarAlbumesArtista() {
         ArrayList<String> ret = new ArrayList();
         Iterator<Album> it = this.getAlbumes().iterator();
-=======
-    ArrayList<String> listarAlbumesArtista() {
-        ArrayList<String> ret = new ArrayList();
-        Iterator<Album> it = albumes.iterator();
->>>>>>> master
         Album a;
         while(it.hasNext()){
             a = (Album) it.next();
@@ -94,20 +84,8 @@ public class Artista extends Usuario{
     }
 
     DtAlbum darAlbum(String nombreAlbum) {
-<<<<<<< HEAD
         Album a = buscarAlbum(nombreAlbum);
         if(a != null )
-=======
-        Iterator<Album> it = albumes.iterator();
-        boolean parar = false;
-        Album a = null;
-        while(it.hasNext() && !parar){
-            a = it.next();
-            if(a!=null && a.getNombre().equals(nombreAlbum))
-                parar = true;
-        }
-        if(a != null && parar)
->>>>>>> master
             return a.darInfoAlbum();
         else
             throw new UnsupportedOperationException("No existe el album perteneciente a ese artista"); 
@@ -126,17 +104,14 @@ public class Artista extends Usuario{
                 throw new UnsupportedOperationException("Album no encontrado."); 
             
     }
-
-<<<<<<< HEAD
     public ArrayList<String> darAlbumesPublicados() {
-        Iterator<Album> it = this.getAlbumes().iterator();
-=======
-    ArrayList<String> darAlbumesPublicados() {
-        Iterator<Album> it = albumes.iterator();
->>>>>>> master
+        Iterator it = this.getAlbumes().iterator();
         ArrayList<String> ret = new ArrayList();
-        while(it.hasNext())
-            ret.add(it.next().getNombre());
+        Album al;
+        while(it.hasNext()){
+            al = (Album) it.next();
+            ret.add(al.getNombre());        
+        }
         return ret;
     }
 }

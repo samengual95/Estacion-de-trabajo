@@ -4,6 +4,7 @@ import dataType.DtAlbum;
 import dataType.DtArbol;
 import dataType.DtArtista;
 import dataType.DtCliente;
+import dataType.DtListaReproduccion;
 import dataType.DtListaReproduccionDefecto;
 import dataType.DtListaReproduccionPersonalizada;
 import dataType.DtPertenece;
@@ -13,6 +14,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.io.*;
+import java.nio.channels.FileChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -27,6 +32,11 @@ public class Sistema implements Interfaz{
     private ArrayList<Usuario> usuarios; 
     private ArrayList<Genero> generos;
     private ArrayList<Album> albumes;
+    private String destinoFoto;
+
+    public String getDestinoFoto() {
+        return destinoFoto;
+    }
 
     public ArrayList<Usuario> getUsuarios() {
         return usuarios;
@@ -44,6 +54,7 @@ public class Sistema implements Interfaz{
         usuarios = new ArrayList();
         generos = new ArrayList();
         albumes = new ArrayList();
+        destinoFoto = "C:\\Users\\Pc\\Documents\\NetBeansProjects\\fotos\\";
     }
 
     @Override
@@ -1201,8 +1212,100 @@ public class Sistema implements Interfaz{
             throw new UnsupportedOperationException("El nick de usuario no pertenece a un cliente");
     }
     
-}
+    @Override
+    public List<Suscripciones> listarSuscripcionesPendientes(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM SUSCRIPCIONES WHERE ESTADO = 'Pendiente'",Suscripciones.class);
+        List<Suscripciones> lista = query.getResultList();
+        return lista;
+    }
+    
+    @Override
+    public void actualizarSuscripcion(int id, String estado){
+        java.util.Date fecha = new Date();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createNativeQuery("UPDATE SUSCRIPCIONES SET ESTADO = '"+ estado +"' FECHA = "+ fecha.toString() +"' WHERE ID = "+ id);
+    }
+    
 
+    @Override
+    public void copiarArchivo (String origen, String destino){
+        
+    /*FileOutputStream zos = null;
+    
+    try{
+        zos = new FileOutputStream(miArchivo);
+        ByteArrayInputStream bais = new ByteArrayInputStream();
+        byte[] buffer = new byte[2048];
+        int leido = 0;while (0> (leido= bais.read(buffer)))
+    }catch (IOException ex){
+    }
+    FileChannel o = null;
+    FileChannel d = null;
+    try {
+        o = new FileInputStream(origen).getChannel();
+        d = new FileOutputStream(destino).getChannel();
+ 
+        long count = 0;
+        long tam = o.size();              
+        while((count += d.transferFrom(o, count, tam-count))<tam);
+         o.close();
+         d.close();
+    }
+    catch (FileNotFoundException ex) {
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Sistema.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+        */try {
+                        File inFile = new File(origen);
+                        File outFile = new File(destino);
+                        InputStream in = new FileInputStream(inFile);
+                        OutputStream out = new FileOutputStream(outFile);
+
+                        byte[] buf = new byte[1024];
+                        int len;
+
+                        while ((len = in.read(buf)) > 0) {
+                                out.write(buf, 0, len);
+                        }
+
+                        in.close();
+                        out.close();
+                } catch (IOException ioe){
+                        ioe.printStackTrace();
+                }
+                
+    }
+   
+//    public List<DtTema> BuscarEnTema(String parametro){
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+//        EntityManager em = emf.createEntityManager();
+//        Query query = em.createNativeQuery("SELECT * FROM TEMA WHERE NOMBRE = '"+ parametro +"'", Tema.class);
+//        List b = query.getResultList();
+//        Iterator <Tema> it = b.iterator();
+//        List <DtTema> ret = new ArrayList <DtTema>();
+//        while (it.hasNext()){
+//            ret.add(new DtTema(it.next().getIdTema(),it.next().getNombre(),it.next().getNumeroCancion(),it.next().getDuracion(), it.next().getAlbum().getNombre(),null));
+//        }
+//        return ret;
+//    }
+//    public List<DtAlbum> BuscarEnAlbumn(String parametro){
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+//        EntityManager em = emf.createEntityManager();
+//        Query query = em.createNativeQuery("SELECT * FROM ALBUM WHERE NICK_ARTISA = '"+ parametro +"' NOMBRE = '"+ parametro +"'", Album.class);
+//        List b = query.getResultList();
+//    }
+//    public List<DtListaReproduccion> BuscarEnAlbumn(String parametro){
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+//        EntityManager em = emf.createEntityManager();
+//        Query query = em.createNativeQuery("SELECT * FROM ALBUM WHERE NICK_ARTISA = '"+ parametro +"' NOMBRE = '"+ parametro +"'", Album.class);
+//        List b = query.getResultList();
+//    }
+}
 
 /*     @Override
     public void agregarTemaListaAlbum(DtPertenece listaPropietario,DtPertenece ruta, DtTema tema) {

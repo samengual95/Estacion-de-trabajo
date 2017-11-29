@@ -41,7 +41,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         Fabrica fabrica = Fabrica.getInstance();
         sistema = fabrica.getInterfaz();
         temas = new ArrayList<DtTema>();
-        inicializarTest();
+        //inicializarTest();
         //sistema.altaPerfil(a);
         //this.getContentPane().setBackground(Color.BLACK);
         //this.getContentPane().setBackground(SystemColor.window);                // El color de la ventana se adapta al que tiene el sistema operativo nativo
@@ -3140,8 +3140,8 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                 char[] pass = jPasswordField1.getPassword();
                 String contrasenia = new String(pass);
                 String fecha = (comboBoxDiaAltaArtista.getSelectedItem().toString()+"/"+comboBoxMesAltaArtista.getSelectedItem().toString()+"/"+comboBoxAnioAltaArtista.getSelectedItem().toString());
-                DtArtista nuevo = new DtArtista(nickAltaArtista.getText(), nombreAltaArtista.getText(), apellidoAltaArtista.getText(), correoElectronicoAltaArtista.getText(), fecha, null, descripcionAltaArtista.getText(), sitioWebAltaArtista.getText(), new ArrayList<String>(), this.Foto, contrasenia);
                 this.Foto = null;
+                DtArtista nuevo = new DtArtista(nickAltaArtista.getText(), nombreAltaArtista.getText(), apellidoAltaArtista.getText(), correoElectronicoAltaArtista.getText(), fecha, null, descripcionAltaArtista.getText(), sitioWebAltaArtista.getText(), new ArrayList<String>(), null, contrasenia);
                 try{
                     sistema.altaPerfil(nuevo);
                     frameAltaArtista.setVisible(false);
@@ -3165,7 +3165,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                 char[] pass = jPasswordField1.getPassword();
                 String contrasenia = new String(pass);
                 String fecha = (comboBoxDiaAltaCliente.getSelectedItem().toString()+"/"+comboBoxMesAltaCliente.getSelectedItem().toString()+"/"+comboBoxAnioAltaCliente.getSelectedItem().toString());
-                DtCliente nuevo = new DtCliente(nickAltaCliente.getText(), nombreAltaCliente.getText(), apellidoAltaCliente.getText(), correoElectronicoAltaCliente.getText(), fecha, this.Foto, contrasenia);
+                DtCliente nuevo = new DtCliente(nickAltaCliente.getText(), nombreAltaCliente.getText(), apellidoAltaCliente.getText(), correoElectronicoAltaCliente.getText(), fecha, /*this.Foto*/null, contrasenia);
                 this.Foto = null;
                 try{
                     sistema.altaPerfil(nuevo);
@@ -3358,7 +3358,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                 }
                 datoFoto.setText("");
                 if(c.getImagen() != null)
-                    datoFoto.setIcon(c.getImagen());
+                    datoFoto.setIcon(/*c.getImagen()*/null);
                 else
                     datoFoto.setVisible(false);
                 frameConsultarPerfilCliente.setVisible(false);
@@ -3758,7 +3758,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
             listaDatos2.setVisible(false);
             jLabel53.setVisible(false);
             if(c.getImagen() != null)
-                datoFoto.setIcon(c.getImagen());
+                datoFoto.setIcon(/*c.getImagen()*/null);
             else
                 datoFoto.setVisible(false);
             frameDatos.setVisible(true);

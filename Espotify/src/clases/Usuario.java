@@ -51,12 +51,17 @@ public class Usuario implements Serializable{
     @ManyToMany(targetEntity = Cliente.class)
     private List<Cliente> seguidores;
     
-    private transient Icon foto;
+    @Column (name = "IMAGEN")
+    private String foto;
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public Usuario(){
     }
     
-    public Usuario(String nick, String nombre, String apellido, String email, String fechaNacimiento, Icon foto, String pass) {
+    public Usuario(String nick, String nombre, String apellido, String email, String fechaNacimiento, String foto, String pass) {
         this.nick = nick;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -75,7 +80,7 @@ public class Usuario implements Serializable{
         this.contrasenia = contrasenia;
     }
 
-    public Icon getFoto() {
+    public String getFoto() {
         return foto;
     }
 
@@ -124,7 +129,7 @@ public class Usuario implements Serializable{
         try{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
             EntityManager em = emf.createEntityManager();
-            Query q = em.createNativeQuery("SELECT U FROM USUARIO USUARIO U, CLIENTE_SEGUIDOR S WHERE U.NICNAME = NICK_CLIENTE AND NICK_SEGUIDO = '"+ this.nick +"'", Usuario.class);
+            Query q = em.createNativeQuery("SELECT U.* FROM USUARIO U, CLIENTE_SEGUIDOR S WHERE U.NICKNAME = S.NICK_CLIENTE AND S.NICK_SEGUIDO =  '"+ this.nick +"'", Usuario.class);
             List l = q.getResultList();
             Iterator it = l.iterator();
             Usuario u;
@@ -142,10 +147,6 @@ public class Usuario implements Serializable{
     }
 
     public void setSeguidor(Cliente c) {
-<<<<<<< HEAD
-=======
-        Iterator<Cliente> it = seguidores.iterator();
->>>>>>> master
         Boolean yaExiste = false;
         Cliente cl=null;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");

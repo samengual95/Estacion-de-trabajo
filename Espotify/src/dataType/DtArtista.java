@@ -13,14 +13,14 @@ public class DtArtista {
     private final String apellido;
     private final String email;
     private final String fechaNacimiento;
-    private final Icon imagen;
+    private final String imagen;
     private final ArrayList<String> seguidores;
     private final ArrayList<String> album;
     
     private final String biografia;
     private final String direccionWeb;
 
-    public DtArtista(String nick, String nombre, String apellido, String email, String fechaNacimiento, ArrayList<String> seguidores, String biografia, String direccionWeb, ArrayList<String> albumes, Icon imagen, String pass) {
+    public DtArtista(String nick, String nombre, String apellido, String email, String fechaNacimiento, ArrayList<String> seguidores, String biografia, String direccionWeb, ArrayList<String> albumes, String imagen, String pass) {
         this.nick = nick;
         this.nombre = nombre;
         this.pass = pass;
@@ -38,7 +38,7 @@ public class DtArtista {
         return pass;
     }
 
-    public Icon getImagen() {
+    public String getImagen() {
         return imagen;
     }
 

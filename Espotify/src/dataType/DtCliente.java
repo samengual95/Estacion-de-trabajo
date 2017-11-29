@@ -13,7 +13,7 @@ public class DtCliente {
     private final String apellido;
     private final String email;
     private final String fechaNacimiento;
-    private final Icon imagen;
+    private final String imagen;
     private final ArrayList<String> seguidores;
     
     private final ArrayList<String> seguidos;
@@ -22,7 +22,7 @@ public class DtCliente {
     private final ArrayList<String> listaFavoritos;
     private final ArrayList<String> listaPropias;
 
-    public DtCliente(String nick, String nombre, String apellido, String email, String fechaNacimiento, Icon img, ArrayList<String> seguidores, ArrayList<String> seguidos, ArrayList<String> albumFavoritos, ArrayList<String> temaFavoritos, ArrayList<String> listaFavoritos, ArrayList<String> listaPropias, String pass) {
+    public DtCliente(String nick, String nombre, String apellido, String email, String fechaNacimiento, String img, ArrayList<String> seguidores, ArrayList<String> seguidos, ArrayList<String> albumFavoritos, ArrayList<String> temaFavoritos, ArrayList<String> listaFavoritos, ArrayList<String> listaPropias, String pass) {
         this.nick = nick;
         this.pass = pass;
         this.nombre = nombre;
@@ -37,7 +37,7 @@ public class DtCliente {
         this.listaFavoritos = listaFavoritos;
         this.listaPropias = listaPropias;
     }
-    public DtCliente(String nick, String nombre, String apellido, String email, String fechaNacimiento, Icon img, String pass){
+    public DtCliente(String nick, String nombre, String apellido, String email, String fechaNacimiento, String img, String pass){
         this.nick = nick;
         this.pass = pass;
         this.nombre = nombre;
@@ -57,7 +57,7 @@ public class DtCliente {
         return pass;
     }
 
-    public Icon getImagen() {
+    public String getImagen() {
         return imagen;
     }
     public String getNick() {
