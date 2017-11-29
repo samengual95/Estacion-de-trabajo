@@ -51,6 +51,14 @@ public class Genero implements Serializable{
     @ManyToOne
     @JoinColumn(name="ID_PADRE")
     private Genero padre;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     
     public Genero(){
     }
@@ -86,7 +94,7 @@ public class Genero implements Serializable{
     public List<PorDefecto> getListaPorDefecto() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createNativeQuery("SELECT * FROM LISTAREPRODUCCION L, ALBUM_GENERO G WHERE L.GENERO = G.ID_GENERO AND L.TIPO = 'PorDefecto' AND G.ID_GENERO = " + this.id, PorDefecto.class);
+        Query q = em.createNativeQuery("SELECT * FROM LISTAREPRODUCCION WHERE TIPO = 'PorDefecto' AND GENERO = " + this.id, PorDefecto.class);
         List<PorDefecto> ret = q.getResultList();
         return ret;
     }
@@ -123,7 +131,7 @@ public class Genero implements Serializable{
         return ret;
     }
 
-    DtListaReproduccionDefecto darLista(String nombre) {
+    public DtListaReproduccionDefecto darLista(String nombre) {
         Iterator<PorDefecto> it = this.getListaPorDefecto().iterator();
         boolean encontrado = false;
         PorDefecto p = null;
@@ -209,15 +217,18 @@ public class Genero implements Serializable{
             throw new UnsupportedOperationException("Imposible acceder a esa lista.");
     }
     
-    public ListaReproduccion buscarLista(String nombreLista) {   
+    public PorDefecto buscarLista(String nombreLista) {   
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
         EntityManager em = emf.createEntityManager();
-        Query q = em.createNativeQuery("SELECT * FROM LISTAREPRODUCCION WHERE NOMBRE = '" + nombreLista + "'", ListaReproduccion.class);
-        List t = q.getResultList();
+        Query q = em.createNativeQuery("SELECT * FROM LISTAREPRODUCCION WHERE NOMBRE = '" + nombreLista + "' AND TIPO = 'PorDefecto' AND GENERO = " + this.getId() + "", PorDefecto.class);
+        List<PorDefecto> t = q.getResultList();
         if (!t.isEmpty()){
-            Iterator it = t.iterator();
-            if (it.hasNext())
-                return (ListaReproduccion) it.next();
+            PorDefecto p;
+            Iterator<PorDefecto> it = t.iterator();
+            if (it.hasNext()){
+                p = (PorDefecto) it.next();
+                return p;
+            }
         }
         return null;
         /*Iterator<PorDefecto> it = listaPorDefecto.iterator();

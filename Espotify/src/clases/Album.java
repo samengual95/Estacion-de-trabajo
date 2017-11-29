@@ -124,7 +124,6 @@ public class Album implements Serializable {
     }
 
     public List getGeneros() {
-        
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
         EntityManager em = emf.createEntityManager();
         Query q = em.createNativeQuery("SELECT G FROM GENERO G, ALBUM_GENERO A WHERE A.ID = " + this.id + " AND G.ID_GENERO = A.ID_GENERO", Genero.class);
@@ -180,4 +179,14 @@ public class Album implements Serializable {
         else
             return t;
     }
+       public List<Tema> darTemasAlbum(){
+           List<Tema> ret;
+           EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+           EntityManager em = emf.createEntityManager();
+           Query q = em.createNativeQuery("SELECT * FROM TEMA WHERE ID_ALBUM = " + this.id + "", Tema.class);
+           ret = (List<Tema>) q.getResultList();
+           em.close();
+           emf.close();
+           return ret;
+       }
 }

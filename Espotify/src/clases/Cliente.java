@@ -226,25 +226,44 @@ public class Cliente extends Usuario{
         else 
             throw new UnsupportedOperationException("No existe la lista perteneciente a ese cliente");
     }
+    
+    public Personalizada darLista1(String nombre) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM LISTAREPRODUCCION WHERE NOMBRE = '" + nombre + "' AND TIPO = 'Personalizada' AND NICK_CREADOR = '" + this.getNick() + "'", ListaReproduccion.class);
+        List<Personalizada> lista = query.getResultList();
+        Personalizada ret=null;
+        em.close();
+        emf.close();
+        if (!lista.isEmpty()){
+            Iterator it = lista.iterator();
+            while(it.hasNext()){
+                ret = (Personalizada) it.next();
+            }      
+        }else
+            return null;
+        return ret;
+    }
 
     void setLista(Personalizada nueva) {
         listas.add(nueva);
     }
 
     void publicarLista(String nombreLista) {
-        Iterator<Personalizada> it = listas.iterator();
-        Boolean encontrado = false;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM LISTAREPRODUCCION WHERE TIPO = 'Personalizada' AND NICK_CREADOR = '" + this.getNick() + "'", ListaReproduccion.class);
+        List<Personalizada> list = query.getResultList();
         Personalizada p = null;
-        while(it.hasNext() && !encontrado){
-            p = (Personalizada) it.next();
-            if(p != null && p.getNombre().equals(nombreLista))
-                encontrado=true;
+        if(!list.isEmpty()){
+            Iterator it = list.iterator();
+            if (it.hasNext()){
+                p = (Personalizada) it.next();
+                p.setPrivado(false);
+            }
         }
-        if(encontrado && p != null)
-            p.setPrivado(false);
-        else
-            throw new UnsupportedOperationException("Lista no encontrada!"); 
     }
+        
 
     public ArrayList<String> darSeguidos() {
         ArrayList<String> ret = new ArrayList<String>();
@@ -325,7 +344,26 @@ public class Cliente extends Usuario{
         }catch(Exception e){
             return new ArrayList<String>();
         }
-        
+    }
+    
+    public ArrayList<String> darListasPersonalizadas(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+        EntityManager em = emf.createEntityManager();
+        Query query = em.createNativeQuery("SELECT * FROM LISTAREPRODUCCION WHERE TIPO = 'Personalizada' AND NICK_CREADOR = '" + this.getNick() + "'", ListaReproduccion.class);
+        List<Personalizada> lista = query.getResultList();
+        ArrayList<String> ret = new ArrayList<>();
+        em.close();
+        emf.close(); 
+        Personalizada p;
+        if (!lista.isEmpty()){
+            Iterator it = lista.iterator();
+            while(it.hasNext()){
+                p = (Personalizada) it.next();
+                ret.add(p.getNombre());
+            }      
+        }else
+            return null;
+        return ret;
     }
 
     void setSeguido(Usuario u) {
@@ -371,8 +409,13 @@ public class Cliente extends Usuario{
         }
         if(!encontrado)
             throw new UnsupportedOperationException("El usuario no era seguido por ese cliente!");
-        else
-            seguidos.remove(s);                                                 // Tal vez solo podria ir esta linea de codigo en esta funcion
+        else{
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
+            EntityManager em = emf.createEntityManager();
+            Query q = em.createNativeQuery("DELETE FROM CLIENTE_SEGUIDOR WHERE NICK_CLIENTE = '" + this.getNick()+ "' AND NICK_SEGUIDO = '" + s.getNick() + "'");
+            seguidos.remove(s);                                                // Tal vez solo podria ir esta linea de codigo en esta funcion
+            
+        }
     }
 
     void quitarTemaLista(String nombreLista, DtTema temaQuitar) {

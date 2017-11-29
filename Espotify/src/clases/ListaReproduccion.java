@@ -95,9 +95,9 @@ public class ListaReproduccion implements Serializable {
         ArrayList<DtTema> ret = new ArrayList();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("EspotifyPersistence");
         EntityManager em = emf.createEntityManager();
-        Query q= em.createNativeQuery("SELECT T FROM TEMA T, TEMA_LISTA L WHERE T.IDTEMA = L.TEMA_IDTEMA AND L.ID_LISTA = '"+ this.nombre +"'", Tema.class);
-        List l = q.getResultList();
-        Iterator it = l.iterator();
+        Query q= em.createNativeQuery("SELECT * FROM TEMA T, TEMA_LISTA L WHERE T.IDTEMA = L.ID_TEMA AND L.ID_LISTA = '"+ this.nombre +"'", Tema.class);
+        List<Tema> l = q.getResultList();
+        Iterator<Tema> it = l.iterator();
         while(it.hasNext()){
             Tema tema = (Tema) it.next();
             DtTema nodo = new DtTema(tema.getIdTema(),tema.getNombre(), tema.getNumeroCancion(), tema.getDuracion(), tema.getAlbum().getNombre(),tema.getAlbum().getPropietario().getNombre() );
