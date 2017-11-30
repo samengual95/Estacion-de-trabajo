@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.Column;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.OneToMany;
 import javax.persistence.Persistence;
@@ -21,10 +22,10 @@ import javax.swing.Icon;
 @Entity
 @DiscriminatorValue(value="Artista")
 public class Artista extends Usuario{
-    
-    private transient String biografia;
-    
-    private transient String dirWeb;
+    @Column(name = "BIOGRAFIA")
+    private String biografia;
+    @Column (name = "DIRECCIONWEB")
+    private  String dirWeb;
     
     @OneToMany(mappedBy="propietario", targetEntity=Album.class)
     private List<Album> albumes;
