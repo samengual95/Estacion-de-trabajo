@@ -1,6 +1,7 @@
 package frame;
 
 import clases.Fabrica;
+import clases.Suscripciones;
 import dataType.DtAlbum;
 import dataType.DtArbol;
 import dataType.DtArtista;
@@ -14,12 +15,14 @@ import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
+import javax.swing.ListModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -336,8 +339,18 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         textFieldAlbumQuitarTemaLista = new javax.swing.JTextField();
         jLabel61 = new javax.swing.JLabel();
         jLabel65 = new javax.swing.JLabel();
-        nombre = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        frameActualizarEstadoSuscripcion = new javax.swing.JInternalFrame();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
+        nuevoEstadoSuscripcion = new javax.swing.JComboBox<>();
+        listaActualizarEstado2 = new javax.swing.JScrollPane();
+        listaActualizarEstado = new javax.swing.JList<>();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        nickClienteEstadoSuscripcion = new javax.swing.JTextField();
+        nombre = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         barraMenuPrincipal = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
@@ -358,6 +371,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         menuGuardarFavoritoLista = new javax.swing.JMenuItem();
         menuEliminarTema = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menuSalir = new javax.swing.JMenuItem();
         menuBuscar = new javax.swing.JMenu();
@@ -1587,7 +1601,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                 .addGroup(frameConsultarAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(frameConsultarAlbumLayout.createSequentialGroup()
                         .addComponent(jTree12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 48, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(frameConsultarAlbumLayout.createSequentialGroup()
                         .addGroup(frameConsultarAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(radioGeneroConsultarAlbum)
@@ -2614,6 +2628,8 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         jLabel65.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel65.setText("Quitar tema lista");
 
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Espo_opt.jpg"))); // NOI18N
+
         javax.swing.GroupLayout frameQuitarTemaLayout = new javax.swing.GroupLayout(frameQuitarTema.getContentPane());
         frameQuitarTema.getContentPane().setLayout(frameQuitarTemaLayout);
         frameQuitarTemaLayout.setHorizontalGroup(
@@ -2661,6 +2677,11 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(aceptarAgregarTemaLista1)
                         .addContainerGap())))
+            .addGroup(frameQuitarTemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(frameQuitarTemaLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         frameQuitarTemaLayout.setVerticalGroup(
             frameQuitarTemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2701,10 +2722,100 @@ public class ventanaPrincipal extends javax.swing.JFrame {
                     .addComponent(aceptarAgregarTemaLista1)
                     .addComponent(cancelarAgregarTemaLista1))
                 .addContainerGap())
+            .addGroup(frameQuitarTemaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(frameQuitarTemaLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel6)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         ventanas.add(frameQuitarTema);
         frameQuitarTema.setBounds(460, 730, 100, 30);
+
+        frameActualizarEstadoSuscripcion.setTitle("Actualizar suscripcion");
+        frameActualizarEstadoSuscripcion.setVisible(true);
+
+        jLabel73.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel73.setText("Actualizar estado de suscripcion");
+
+        jLabel74.setText("Id suscripcion:");
+
+        jLabel75.setText("Nuevo estado de suscripcion:");
+
+        nuevoEstadoSuscripcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vigente", "Cancelada" }));
+
+        listaActualizarEstado2.setViewportView(listaActualizarEstado);
+
+        jButton7.setText("Aceptar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Cancelar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout frameActualizarEstadoSuscripcionLayout = new javax.swing.GroupLayout(frameActualizarEstadoSuscripcion.getContentPane());
+        frameActualizarEstadoSuscripcion.getContentPane().setLayout(frameActualizarEstadoSuscripcionLayout);
+        frameActualizarEstadoSuscripcionLayout.setHorizontalGroup(
+            frameActualizarEstadoSuscripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel73)
+                .addGap(120, 120, 120))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton7)
+                .addContainerGap())
+            .addGroup(frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                .addGroup(frameActualizarEstadoSuscripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(frameActualizarEstadoSuscripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                                .addComponent(jLabel75)
+                                .addGap(149, 149, 149)
+                                .addComponent(nuevoEstadoSuscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                                .addComponent(jLabel74)
+                                .addGap(186, 186, 186)
+                                .addComponent(nickClienteEstadoSuscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(listaActualizarEstado2, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+        frameActualizarEstadoSuscripcionLayout.setVerticalGroup(
+            frameActualizarEstadoSuscripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(frameActualizarEstadoSuscripcionLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel73)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(listaActualizarEstado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addGroup(frameActualizarEstadoSuscripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel74)
+                    .addComponent(nickClienteEstadoSuscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(frameActualizarEstadoSuscripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel75)
+                    .addComponent(nuevoEstadoSuscripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(85, 85, 85)
+                .addGroup(frameActualizarEstadoSuscripcionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jButton8))
+                .addContainerGap())
+        );
+
+        ventanas.add(frameActualizarEstadoSuscripcion);
+        frameActualizarEstadoSuscripcion.setBounds(50, 150, 160, 30);
 
         nombre.setBackground(new java.awt.Color(255, 255, 255));
         nombre.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -2712,10 +2823,6 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         nombre.setText("Espotify");
         ventanas.add(nombre);
         nombre.setBounds(1840, 60, 56, 19);
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/Espo_opt.jpg"))); // NOI18N
-        ventanas.add(jLabel6);
-        jLabel6.setBounds(1840, 20, 50, 50);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/imagen.jpg"))); // NOI18N
         ventanas.add(jLabel4);
@@ -2858,6 +2965,14 @@ public class ventanaPrincipal extends javax.swing.JFrame {
             }
         });
         menuArchivo.add(menuEliminarTema);
+
+        jMenuItem3.setText("Actualizar suscripcion");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        menuArchivo.add(jMenuItem3);
         menuArchivo.add(jSeparator1);
 
         menuSalir.setText("Salir");
@@ -4254,6 +4369,32 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private void cancelarAgregarTemaLista1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarAgregarTemaLista1ActionPerformed
         frameQuitarTema.setVisible(false);
     }//GEN-LAST:event_cancelarAgregarTemaLista1ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        frameActualizarEstadoSuscripcion.setVisible(false);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        String nuevoEstado = nuevoEstadoSuscripcion.getSelectedItem().toString();
+        int id = Integer.parseInt(nickClienteEstadoSuscripcion.getText());
+        sistema.actualizarSuscripcion(id,nuevoEstado); //Funcion que se debe fijar el estado actual de la suscripcion, si es pendiente se puede cambiar, de lo contrario no se podra
+        frameActualizarEstadoSuscripcion.setVisible(false);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        //CARGAR DATOS EN LISTA -> LISTA DE SUSCRIPCIONES DEL SISTEMA
+        List<Suscripciones> suscripciones = sistema.listarSuscripcionesPendientes();// Lista todas las suscripciones del sistema con sus respectivos nick de usuario y sus estados
+        DefaultListModel<String> listado = new DefaultListModel<String>();
+        Iterator<Suscripciones> it = suscripciones.iterator();
+        while(it.hasNext()){
+            Suscripciones nuevo = it.next();
+            String nodo = "Nick: " + nuevo.getCliente().getNick() + " - ID: " + nuevo.getIdSuscripcion() + " - Estado: " + nuevo.getEstado() + " - Tipo: " + nuevo.getTipo();
+            listado.addElement(nodo);
+        }
+        listaActualizarEstado.setModel( listado);
+        nickClienteEstadoSuscripcion.setText("");
+        frameActualizarEstadoSuscripcion.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     File fichero;
     /**
      * @param args the command line arguments
@@ -4537,6 +4678,10 @@ public class ventanaPrincipal extends javax.swing.JFrame {
         grupoBotonesQuitarTemaLista.add(personalizadaQuitarTemaLista);
         grupoBotonesQuitarTemaLista.add(porDefectoQuitarTemaLista);
         
+        frameActualizarEstadoSuscripcion.setVisible(false);
+        frameActualizarEstadoSuscripcion.reshape(500, 200, 600, 500);
+        
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Aceptar;
@@ -4606,6 +4751,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel fotoAltaArtista;
     private javax.swing.JLabel fotoAltaCliente;
     private javax.swing.JLabel fotoLista;
+    private javax.swing.JInternalFrame frameActualizarEstadoSuscripcion;
     private javax.swing.JInternalFrame frameAgregarTemaLista;
     private javax.swing.JInternalFrame frameAltaAlbum;
     private javax.swing.JInternalFrame frameAltaArtista;
@@ -4642,6 +4788,8 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -4712,11 +4860,15 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
@@ -4762,6 +4914,8 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel labelNombreCrearListaReproduccion;
     private javax.swing.JLabel labelPerteneceCrearListaReproduccion;
     private javax.swing.JLabel labelSitioWeb;
+    private javax.swing.JList<String> listaActualizarEstado;
+    private javax.swing.JScrollPane listaActualizarEstado2;
     private javax.swing.JScrollPane listaArtistasConsultarPerfilArtista;
     private javax.swing.JList<String> listaArtistasConsultarPerfilArtista2;
     private javax.swing.JScrollPane listaClientesConsultarPerfilCliente;
@@ -4800,6 +4954,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField nickAltaAlbum;
     private javax.swing.JTextField nickAltaArtista;
     private javax.swing.JTextField nickAltaCliente;
+    private javax.swing.JTextField nickClienteEstadoSuscripcion;
     private javax.swing.JLabel nombre;
     private javax.swing.JTextField nombreAltaAlbum;
     private javax.swing.JTextField nombreAltaArtista;
@@ -4807,6 +4962,7 @@ public class ventanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField nombreAltaGenero;
     private javax.swing.JTextField nombreAltaTema;
     private javax.swing.JTextField nombrePadreAltaGenero;
+    private javax.swing.JComboBox<String> nuevoEstadoSuscripcion;
     private javax.swing.JTextField numeroCancionAltaTema;
     private javax.swing.JRadioButton personalizadaAgregarTemaLista;
     private javax.swing.JRadioButton personalizadaQuitarTemaLista;
